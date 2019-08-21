@@ -53,19 +53,31 @@ end
 #make a game object
 =begin
 deck
-dealer hand
-player hand
+dealer score
+player score
 playerMove()
 dealerMove()
 endGame()
 =end
+class Game
+    def initialize
+        @deck = Deck.new
+        @deck.shuffle
+        @dealerScore = 0
+        @playerScore = 0
+    end
+    def start
+        print "What is your name? "
+        @name = gets.chomp
+        puts "Hi #{@name}"
+    end
+    def show_deck
+        return @deck.to_s
+    end
+end
 
 #start the game
 #play again?
-myDeck = Deck.new
-myDeck.shuffle
-for i in 1..42
-    puts "card " + myDeck.deal(1)[0].to_s
-end
-puts myDeck.to_s
+myGame = Game.new
+puts myGame.show_deck
 
