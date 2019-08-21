@@ -65,11 +65,34 @@ class Game
         @deck.shuffle
         @dealerScore = 0
         @playerScore = 0
+        @dealerHand = []
+        @playerHand = []
     end
     def start
         print "What is your name? "
         @name = gets.chomp
         puts "Hi #{@name}"
+        self.play
+    end
+    def play
+        @dealerHand = @deck.deal(2)
+        @playerHand = @deck.deal(2)
+        self.display
+    end
+    def show_cards(hand)
+        hand_str = ""
+        for i in 0..(hand.length-1)
+            hand_str += hand[i].to_s
+            if i != hand.length-1
+                hand_str += ", "
+            end
+        end
+        return hand_str
+    end
+    def display
+        system "clear"
+        puts "DEALER CARDS: #{self.show_cards(@dealerHand)}"
+        puts "#{@name} CARDS: #{self.show_cards(@playerHand)}"
     end
     def show_deck
         return @deck.to_s
@@ -79,5 +102,5 @@ end
 #start the game
 #play again?
 myGame = Game.new
-puts myGame.show_deck
+myGame.start
 
