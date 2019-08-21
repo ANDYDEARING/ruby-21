@@ -41,6 +41,13 @@ class Deck
         end
         return deck_string
     end
+    def deal(number_to_deal)
+        new_cards = []
+        for i in 1..number_to_deal
+            new_cards.push(@cards.pop())
+        end
+        return new_cards
+    end
 end
 
 #make a game object
@@ -57,5 +64,8 @@ endGame()
 #play again?
 myDeck = Deck.new
 myDeck.shuffle
+for i in 1..42
+    puts "card " + myDeck.deal(1)[0].to_s
+end
 puts myDeck.to_s
 
