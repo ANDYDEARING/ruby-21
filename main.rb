@@ -31,6 +31,9 @@ class Deck
             end
         end
     end
+    def shuffle()
+        @cards = @cards.sort_by{ rand }
+    end
     def to_s()
         deck_string = ""
         for card in @cards do
@@ -53,5 +56,6 @@ endGame()
 #start the game
 #play again?
 myDeck = Deck.new
+myDeck.shuffle
 puts myDeck.to_s
 
