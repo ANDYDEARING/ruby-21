@@ -11,6 +11,9 @@ class Card
     def to_s()
         return "#{@value} of #{@suit}"
     end
+    def get_value
+        return @value
+    end
 end
 
 #make a deck of cards object
@@ -71,13 +74,23 @@ class Game
     def start
         print "What is your name? "
         @name = gets.chomp
-        puts "Hi #{@name}"
         self.play
     end
     def play
         @dealerHand = @deck.deal(2)
         @playerHand = @deck.deal(2)
+        self.update_score
         self.display
+        self.get_move
+    end
+    def update_score
+        #doesn't work, needs debug
+        new_score = 0
+        for card in @playerHand
+            if (['KING', 'QUEEN', 'JACK'].include? card.get_value)
+                new_score += 10
+            end
+        end
     end
     def show_cards(hand)
         hand_str = ""
@@ -89,10 +102,19 @@ class Game
         end
         return hand_str
     end
+    def show_dealer_starting_cards(hand)
+        return "FACEDOWN, " + hand[1].to_s
+    end
+    def get_move
+        print "Would you like to (h)it or (s)tand? "
+        player_move = gets.chomp
+        return player_move
+    end
     def display
         system "clear"
-        puts "DEALER CARDS: #{self.show_cards(@dealerHand)}"
+        puts "DEALER CARDS: #{self.show_dealer_starting_cards(@dealerHand)}"
         puts "#{@name} CARDS: #{self.show_cards(@playerHand)}"
+        puts "Your current score: #{@playerScore}"
     end
     def show_deck
         return @deck.to_s
