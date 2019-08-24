@@ -88,7 +88,11 @@ class Game
         if @dealerScore == 21
             puts "The Dealer got Blackjack :("
         else
-            puts self.get_move
+            while @playerScore <= 21 && self.get_move != "s"
+                @playerHand += @deck.deal(1)
+                @playerScore = self.get_score(@playerHand)
+                self.display
+            end
         end
     end
     def get_score(hand)
