@@ -84,14 +84,15 @@ class Game
         self.get_move
     end
     def update_score
-        #doesn't work, needs debug
         new_score = 0
         for card in @playerHand
-            print card.get_value
             if (['KING', 'QUEEN', 'JACK'].include? card.get_value)
                 new_score += 10
+            else
+                new_score += card.get_value.to_i
             end
         end
+        @playerScore = new_score
     end
     def show_cards(hand)
         hand_str = ""
