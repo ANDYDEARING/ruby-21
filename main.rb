@@ -87,6 +87,7 @@ class Game
         #doesn't work, needs debug
         new_score = 0
         for card in @playerHand
+            print card.get_value
             if (['KING', 'QUEEN', 'JACK'].include? card.get_value)
                 new_score += 10
             end
@@ -111,7 +112,7 @@ class Game
         return player_move
     end
     def display
-        system "clear"
+        # system "clear"
         puts "DEALER CARDS: #{self.show_dealer_starting_cards(@dealerHand)}"
         puts "#{@name} CARDS: #{self.show_cards(@playerHand)}"
         puts "Your current score: #{@playerScore}"
