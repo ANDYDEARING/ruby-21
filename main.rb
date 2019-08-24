@@ -85,11 +85,23 @@ class Game
     end
     def update_score
         new_score = 0
+        ace_count = 0
         for card in @playerHand
             if (['KING', 'QUEEN', 'JACK'].include? card.get_value)
                 new_score += 10
+            elsif card.get_value == 'ACE'
+                ace_count += 1
             else
                 new_score += card.get_value.to_i
+            end
+        end
+        unless ace_count == 0
+            new_score += (ace_count*11)
+            if new_score > 21
+                while (new_score > 21 && ace_count > 0)
+                    new_score -= 10
+                    ace_count -= 1
+                end
             end
         end
         @playerScore = new_score
