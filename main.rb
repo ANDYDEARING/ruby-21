@@ -74,19 +74,27 @@ class Game
     def start
         print "What is your name? "
         @name = gets.chomp
+        if @name == ''
+            @name = "YOUR"
+        end
         self.play
     end
     def play
         @dealerHand = @deck.deal(2)
         @playerHand = @deck.deal(2)
-        self.update_score
+        @playerScore = self.get_score(@playerHand)
+        @dealerScore = self.get_score(@dealerHand)
         self.display
-        self.get_move
+        if @dealerScore == 21
+            puts "The Dealer got Blackjack :("
+        else
+            puts self.get_move
+        end
     end
-    def update_score
+    def get_score(hand)
         new_score = 0
         ace_count = 0
-        for card in @playerHand
+        for card in hand
             if (['KING', 'QUEEN', 'JACK'].include? card.get_value)
                 new_score += 10
             elsif card.get_value == 'ACE'
@@ -104,7 +112,7 @@ class Game
                 end
             end
         end
-        @playerScore = new_score
+        return new_score
     end
     def show_cards(hand)
         hand_str = ""
@@ -117,15 +125,26 @@ class Game
         return hand_str
     end
     def show_dealer_starting_cards(hand)
-        return "FACEDOWN, " + hand[1].to_s
+        if @dealerScore == 21
+            return hand[0].to_s + ", " + hand[1].to_s
+        else
+            return "FACEDOWN, " + hand[1].to_s
+        end
     end
     def get_move
         print "Would you like to (h)it or (s)tand? "
         player_move = gets.chomp
-        return player_move
+        begin
+            if player_move[0,1].downcase == "s"
+                return "s"
+            end
+        rescue
+            # do nothing
+        end
+        return "h"
     end
     def display
-        # system "clear"
+        system "clear"
         puts "DEALER CARDS: #{self.show_dealer_starting_cards(@dealerHand)}"
         puts "#{@name} CARDS: #{self.show_cards(@playerHand)}"
         puts "Your current score: #{@playerScore}"
