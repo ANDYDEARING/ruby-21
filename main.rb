@@ -1,8 +1,15 @@
-#make a card object
 =begin
-suit
-value
+AREAS FOR IMPROVEMENT
+ - Play again?
+ - Dealer hits on "soft" 17
+ - Money
+ - Double Down
+ - Split
+ - Graphics (Web App)
+ - Multiple Players
 =end
+
+#make a card object
 class Card
     def initialize (value,suit)
         @value = value
@@ -17,11 +24,6 @@ class Card
 end
 
 #make a deck of cards object
-=begin
-cards
-shuffle()
-deal(int)
-=end
 class Deck
     def initialize()
         @number_of_cards = 52
@@ -54,14 +56,6 @@ class Deck
 end
 
 #make a game object
-=begin
-deck
-dealer score
-player score
-playerMove()
-dealerMove()
-endGame()
-=end
 class Game
     def initialize
         @deck = Deck.new
@@ -183,7 +177,6 @@ class Game
 end
 
 #start the game
-#play again?
 myGame = Game.new
 myGame.start
 
