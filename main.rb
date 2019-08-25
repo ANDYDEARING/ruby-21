@@ -93,6 +93,21 @@ class Game
                 @playerScore = self.get_score(@playerHand)
                 self.display
             end
+            if @playerScore > 21
+                puts "BUSTED!"
+            else
+                self.end_display
+                while @dealerScore < 17
+                    @dealerHand += @deck.deal(1)
+                    @dealerScore = self.get_score(@dealerHand)
+                    self.end_display
+                end
+            end
+            if @playerScore > @dealerScore
+                puts "You win!"
+            else
+                puts "You lose!"
+            end
         end
     end
     def get_score(hand)
@@ -152,6 +167,15 @@ class Game
         puts "DEALER CARDS: #{self.show_dealer_starting_cards(@dealerHand)}"
         puts "#{@name} CARDS: #{self.show_cards(@playerHand)}"
         puts "Your current score: #{@playerScore}"
+    end
+    def end_display
+        system "clear"
+        puts "DEALER CARDS: #{self.show_cards(@dealerHand)}"
+        puts "#{@name} CARDS: #{self.show_cards(@playerHand)}"
+        puts "DEALER score: #{@dealerScore}"
+        puts "Your score: #{@playerScore}"
+        print "PRESS ENTER TO CONTINUE"
+        gets.chomp
     end
     def show_deck
         return @deck.to_s
