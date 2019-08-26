@@ -1,6 +1,5 @@
 =begin
 AREAS FOR IMPROVEMENT
- - Play again?
  - Dealer hits on "soft" 17
  - Money
  - Double Down
@@ -58,6 +57,9 @@ end
 #make a game object
 class Game
     def initialize
+        self.new_game
+    end
+    def new_game
         @deck = Deck.new
         @deck.shuffle
         @dealerScore = 0
@@ -97,11 +99,20 @@ class Game
                     self.end_display
                 end
             end
-            if @playerScore > @dealerScore
+            if @playerScore > @dealerScore && @playerScore <= 21
                 puts "You win!"
             else
                 puts "You lose!"
             end
+            self.play_again
+        end
+    end
+    def play_again
+        print "Would you like to play again? (y/n) "
+        answer = gets.chomp
+        if answer[0,1].downcase == "y"
+            self.new_game
+            self.play
         end
     end
     def get_score(hand)
