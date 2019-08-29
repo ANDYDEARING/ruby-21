@@ -1,6 +1,5 @@
 =begin
 AREAS FOR IMPROVEMENT
- - Dealer hits on "soft" 17
  - Money
  - Double Down
  - Split
@@ -93,7 +92,7 @@ class Game
                 puts "BUSTED!"
             else
                 self.end_display
-                while @dealerScore < 17
+                while @dealerScore < 17 || (@dealerScore == 17 && self.contains_ace(@dealerHand))
                     @dealerHand += @deck.deal(1)
                     @dealerScore = self.get_score(@dealerHand)
                     self.end_display
@@ -106,6 +105,14 @@ class Game
             end
             self.play_again
         end
+    end
+    def contains_ace(hand)
+        for card in hand
+            if card.get_value == "ACE"
+                return true
+            end
+        end
+        return false
     end
     def play_again
         print "Would you like to play again? (y/n) "
@@ -187,7 +194,9 @@ class Game
     end
 end
 
-#start the game
-myGame = Game.new
-myGame.start
+if __FILE__ == $0
+    #start the game
+    myGame = Game.new
+    myGame.start
+end
 
