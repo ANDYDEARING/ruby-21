@@ -8,6 +8,9 @@ AREAS FOR IMPROVEMENT
 =end
 
 #make a card object
+
+STARTING_MONEY = 10
+
 class Card
     def initialize (value,suit)
         @value = value
@@ -57,7 +60,7 @@ end
 class Game
     def initialize
         self.new_game
-        @playerMoney = 100
+        @playerMoney = STARTING_MONEY
     end
     def new_game
         @deck = Deck.new
@@ -89,6 +92,9 @@ class Game
             end
         rescue
             @currentBet = 1
+        end
+        if @currentBet > @playerMoney
+            @currentBet = @playerMoney
         end
     end
     def game_won
@@ -140,12 +146,25 @@ class Game
         return false
     end
     def play_again
-        print "Would you like to play again? (y/n) "
-        answer = gets.chomp
-        if answer[0,1].downcase == "y"
-            self.new_game
-            self.get_bet
-            self.play
+        puts "Current Money: #{@playerMoney}"
+        if @playerMoney < 1
+            puts "You're broke. Game Over."
+        else
+            print "Would you like to play again? (y/n) "
+            answer = gets.chomp
+            if answer[0,1].downcase == "y"
+                self.new_game
+                self.get_bet
+                self.play
+            else
+                if @playerMoney > STARTING_MONEY
+                    puts "You made #{@playerMoney - STARTING_MONEY}!"
+                elsif @playerMoney < STARTING_MONEY
+                    puts "You lost #{STARTING_MONEY - @playerMoney}!"
+                else
+                    puts "You broke even!"
+                end
+            end
         end
     end
     def get_score(hand)
