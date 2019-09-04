@@ -9,7 +9,7 @@ AREAS FOR IMPROVEMENT
 
 #make a card object
 
-STARTING_MONEY = 10
+STARTING_MONEY = 100
 
 class Card
     def initialize (value,suit)
@@ -228,6 +228,7 @@ class Game
     end
     def end_display
         system "clear"
+        puts "Total Money: #{@playerMoney} Current Bet: #{@currentBet}"
         puts "DEALER CARDS: #{self.show_cards(@dealerHand)}"
         puts "#{@name} CARDS: #{self.show_cards(@playerHand)}"
         puts "DEALER score: #{@dealerScore}"
