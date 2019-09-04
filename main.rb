@@ -81,8 +81,8 @@ class Game
         self.play
     end
     def get_bet
-        puts "Current Money: #{@playerMoney}"
-        print "What would you like to bet(1-10)? "
+        puts "Current Money: $#{@playerMoney}"
+        print "What would you like to bet($1-$10)? $"
         begin
             @currentBet = gets.chomp.to_i
             if @currentBet > 10
@@ -146,7 +146,7 @@ class Game
         return false
     end
     def play_again
-        puts "Current Money: #{@playerMoney}"
+        puts "Current Money: $#{@playerMoney}"
         if @playerMoney < 1
             puts "You're broke. Game Over."
         else
@@ -158,9 +158,9 @@ class Game
                 self.play
             else
                 if @playerMoney > STARTING_MONEY
-                    puts "You made #{@playerMoney - STARTING_MONEY}!"
+                    puts "You made $#{@playerMoney - STARTING_MONEY}!"
                 elsif @playerMoney < STARTING_MONEY
-                    puts "You lost #{STARTING_MONEY - @playerMoney}!"
+                    puts "You lost $#{STARTING_MONEY - @playerMoney}!"
                 else
                     puts "You broke even!"
                 end
@@ -221,14 +221,14 @@ class Game
     end
     def display
         system "clear"
-        puts "Total Money: #{@playerMoney} Current Bet: #{@currentBet}"
+        puts "Total Money: $#{@playerMoney} Current Bet: $#{@currentBet}"
         puts "DEALER CARDS: #{self.show_dealer_starting_cards(@dealerHand)}"
         puts "#{@name} CARDS: #{self.show_cards(@playerHand)}"
         puts "Your current score: #{@playerScore}"
     end
     def end_display
         system "clear"
-        puts "Total Money: #{@playerMoney} Current Bet: #{@currentBet}"
+        puts "Total Money: $#{@playerMoney} Current Bet: $#{@currentBet}"
         puts "DEALER CARDS: #{self.show_cards(@dealerHand)}"
         puts "#{@name} CARDS: #{self.show_cards(@playerHand)}"
         puts "DEALER score: #{@dealerScore}"
