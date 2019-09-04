@@ -1,6 +1,6 @@
 =begin
 AREAS FOR IMPROVEMENT
- - Money
+ - 3:2 payout on Blackjack
  - Double Down
  - Split
  - Graphics (Web App)
@@ -57,6 +57,7 @@ end
 class Game
     def initialize
         self.new_game
+        @playerMoney = 100
     end
     def new_game
         @deck = Deck.new
@@ -65,6 +66,7 @@ class Game
         @playerScore = 0
         @dealerHand = []
         @playerHand = []
+        @currentBet = 0
     end
     def start
         print "What is your name? "
@@ -72,7 +74,28 @@ class Game
         if @name == ''
             @name = "YOUR"
         end
+        self.get_bet
         self.play
+    end
+    def get_bet
+        puts "Current Money: #{@playerMoney}"
+        print "What would you like to bet(1-10)? "
+        begin
+            @currentBet = gets.chomp.to_i
+            if @currentBet > 10
+                @currentBet = 10
+            elsif @currentBet < 1
+                @currentBet = 1
+            end
+        rescue
+            @currentBet = 1
+        end
+    end
+    def game_won
+        @playerMoney += @currentBet
+    end
+    def game_lost
+        @playerMoney -= @currentBet
     end
     def play
         @dealerHand = @deck.deal(2)
@@ -98,10 +121,12 @@ class Game
                     self.end_display
                 end
             end
-            if @playerScore > @dealerScore && @playerScore <= 21
+            if (@playerScore > @dealerScore || @dealerScore > 21) && @playerScore <= 21
                 puts "You win!"
+                self.game_won
             else
                 puts "You lose!"
+                self.game_lost
             end
             self.play_again
         end
@@ -119,6 +144,7 @@ class Game
         answer = gets.chomp
         if answer[0,1].downcase == "y"
             self.new_game
+            self.get_bet
             self.play
         end
     end
@@ -176,6 +202,7 @@ class Game
     end
     def display
         system "clear"
+        puts "Total Money: #{@playerMoney} Current Bet: #{@currentBet}"
         puts "DEALER CARDS: #{self.show_dealer_starting_cards(@dealerHand)}"
         puts "#{@name} CARDS: #{self.show_cards(@playerHand)}"
         puts "Your current score: #{@playerScore}"
