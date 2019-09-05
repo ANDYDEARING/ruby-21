@@ -1,6 +1,9 @@
 =begin
 AREAS FOR IMPROVEMENT
- - 3:2 payout on Blackjack
+ - Double dollar amounts at the end
+ - Doesn't account for .50
+ - Needs unit tests
+ - play() refactor into smaller functions
  - Double Down
  - Split
  - Graphics (Web App)
