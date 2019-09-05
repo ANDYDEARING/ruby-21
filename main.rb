@@ -100,6 +100,9 @@ class Game
     def game_won
         @playerMoney += @currentBet
     end
+    def blackjack_win_bonus
+        @playerMoney += @currentBet/2
+    end
     def game_lost
         @playerMoney -= @currentBet
     end
@@ -112,7 +115,11 @@ class Game
         if @dealerScore == 21
             puts "The Dealer got Blackjack :("
         else
-            while @playerScore <= 21 && self.get_move != "s"
+            if @playerScore == 21
+                puts "Blackjack!"
+                self.blackjack_win_bonus
+            end
+            while @playerScore < 21 && self.get_move != "s"
                 @playerHand += @deck.deal(1)
                 @playerScore = self.get_score(@playerHand)
                 self.display
@@ -152,7 +159,7 @@ class Game
         else
             print "Would you like to play again? (y/n) "
             answer = gets.chomp
-            if answer[0,1].downcase == "y"
+            unless answer[0,1].downcase == "n"
                 self.new_game
                 self.get_bet
                 self.play
