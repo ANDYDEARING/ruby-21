@@ -101,24 +101,27 @@ class Game
         @playerMoney += @currentBet
     end
     def blackjack_win_bonus
-        @playerMoney += @currentBet/2
+        @playerMoney += (@currentBet/2)
     end
     def game_lost
         @playerMoney -= @currentBet
     end
     def play
+        push = false
         @dealerHand = @deck.deal(2)
         @playerHand = @deck.deal(2)
         @playerScore = self.get_score(@playerHand)
         @dealerScore = self.get_score(@dealerHand)
         self.display
-        if @dealerScore == 21
+        if (@dealerScore == 21) && (@playerScore == 21)
+            puts "You both got Blackjack :|"
+            push = true
+        elsif @dealerScore == 21
             puts "The Dealer got Blackjack :("
+        elsif @playerScore == 21
+            puts "You got Blackjack! :)"
+            self.blackjack_win_bonus
         else
-            if @playerScore == 21
-                puts "Blackjack!"
-                self.blackjack_win_bonus
-            end
             while @playerScore < 21 && self.get_move != "s"
                 @playerHand += @deck.deal(1)
                 @playerScore = self.get_score(@playerHand)
@@ -134,15 +137,17 @@ class Game
                     self.end_display
                 end
             end
-            if (@playerScore > @dealerScore || @dealerScore > 21) && @playerScore <= 21
-                puts "You win!"
-                self.game_won
-            else
-                puts "You lose!"
-                self.game_lost
-            end
-            self.play_again
         end
+        if (@playerScore > @dealerScore || @dealerScore > 21) && @playerScore <= 21
+            puts "You win!"
+            self.game_won
+        elsif push
+            puts "Push!"
+        else
+            puts "You lose!"
+            self.game_lost
+        end
+        self.play_again
     end
     def contains_ace(hand)
         for card in hand
