@@ -2,7 +2,7 @@
 AREAS FOR IMPROVEMENT
  - Double dollar amounts at the end
  - Doesn't account for .50
- - Needs unit tests
+ - Refactor for unit tests
  - Double Down
  - Split
  - Graphics (Web App)

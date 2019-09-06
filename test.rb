@@ -10,4 +10,4 @@ def test_soft_17
     puts @dealerScore < 17 || (@dealerScore == 17 && test_game.contains_ace(@dealerHand))
 end
 
-test_soft_17()
+# test_soft_17()
