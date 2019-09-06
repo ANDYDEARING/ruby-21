@@ -3,7 +3,6 @@ AREAS FOR IMPROVEMENT
  - Double dollar amounts at the end
  - Doesn't account for .50
  - Needs unit tests
- - play() refactor into smaller functions
  - Double Down
  - Split
  - Graphics (Web App)
@@ -110,21 +109,13 @@ class Game
         @playerMoney -= @currentBet
     end
     def play
-        push = false
+        @push = false
         @dealerHand = @deck.deal(2)
         @playerHand = @deck.deal(2)
         @playerScore = self.get_score(@playerHand)
         @dealerScore = self.get_score(@dealerHand)
         self.display
-        if (@dealerScore == 21) && (@playerScore == 21)
-            puts "You both got Blackjack :|"
-            push = true
-        elsif @dealerScore == 21
-            puts "The Dealer got Blackjack :("
-        elsif @playerScore == 21
-            puts "You got Blackjack! :)"
-            self.blackjack_win_bonus
-        else
+        unless self.are_blackjacks
             while @playerScore < 21 && self.get_move != "s"
                 @playerHand += @deck.deal(1)
                 @playerScore = self.get_score(@playerHand)
@@ -141,16 +132,35 @@ class Game
                 end
             end
         end
+        self.get_game_result
+        self.play_again
+    end
+    def are_blackjacks
+        if (@dealerScore == 21) && (@playerScore == 21)
+            puts "You both got Blackjack :|"
+            @push = true
+            return true
+        elsif @dealerScore == 21
+            puts "The Dealer got Blackjack :("
+            return true
+        elsif @playerScore == 21
+            puts "You got Blackjack! :)"
+            self.blackjack_win_bonus
+            return true
+        else
+            return false
+        end
+    end
+    def get_game_result
         if (@playerScore > @dealerScore || @dealerScore > 21) && @playerScore <= 21
             puts "You win!"
             self.game_won
-        elsif push
+        elsif @push
             puts "Push!"
         else
             puts "You lose!"
             self.game_lost
         end
-        self.play_again
     end
     def contains_ace(hand)
         for card in hand
