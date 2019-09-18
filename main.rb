@@ -11,7 +11,7 @@ AREAS FOR IMPROVEMENT
 
 #make a card object
 
-STARTING_MONEY = 100
+STARTING_MONEY = 1000
 
 class Card
     def initialize (value,suit)
